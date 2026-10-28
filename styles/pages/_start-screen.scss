@@ -1,0 +1,112 @@
+.start-screen {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 32px 24px;
+
+  &__decoration {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 180px;
+    pointer-events: none;
+  }
+
+  &__content {
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+  }
+
+  &__intro {
+    margin: 0 0 8px;
+    font-family: 'Almarai', sans-serif;
+    font-weight: 400;
+    font-size: clamp(20px, 3.333333vw, 48px);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: clamp(32px, 9.722222vw, 140px);
+    font-weight: 700;
+    font-family: 'Red Rose', serif;
+    white-space: nowrap;
+  }
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    font-family: 'Red Rose', serif;
+    font-weight: 700;
+    font-size: clamp(20px, 2.777778vw, 40px);
+
+    width: 6.25em;
+    height: 2.45em;
+    margin: 48px auto 0;
+    padding: 0 0.6em;
+    border: none;
+    background-color: #f0eb70;
+    color: #30332b;
+
+    transition: width 350ms ease-in-out;
+
+    &:hover,
+    &:focus-visible {
+      width: 6.75em;
+
+      .start-screen__button-controller {
+        transform: rotate(-20deg);
+      }
+
+      .start-screen__button-arrow {
+        opacity: 0;
+      }
+
+      .start-screen__button-arrow-thick {
+        opacity: 1;
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid white;
+      outline-offset: 4px;
+    }
+  }
+
+  &__button-controller {
+    display: block;
+    width: 1.1em;
+    height: auto;
+    flex-shrink: 0;
+    transition: transform 350ms ease-in-out;
+  }
+
+  &__button-text {
+    line-height: 1;
+  }
+
+  &__button-arrows {
+    display: grid;
+    align-items: center;
+    width: 0.9em;
+    height: 0.9em;
+    flex-shrink: 0;
+  }
+
+  &__button-arrow,
+  &__button-arrow-thick {
+    grid-area: 1 / 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: opacity 350ms ease-in-out;
+  }
+
+  &__button-arrow-thick {
+    opacity: 0;
+  }
+}
