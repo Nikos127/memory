@@ -11,7 +11,8 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 180px;
+    width: clamp(180px, 27.777778vw, 400px);
+    height: auto;
     pointer-events: none;
   }
 

@@ -14,3 +14,7 @@ button {
   font: inherit;
   cursor: pointer;
 }
+
+[hidden] {
+  display: none !important;
+}

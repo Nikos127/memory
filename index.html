@@ -46,6 +46,109 @@
           </button>
         </div>
       </section>
+      <section class="settings-screen" id="settings-screen" hidden>
+        <h1 class="settings-screen__title">Settings</h1>
+
+        <form class="settings-screen__form" id="settings-form">
+          <fieldset class="settings-screen__group">
+            <legend class="settings-screen__legend">
+              <img
+                class="settings-screen__icon"
+                src="./assets/images/theme-icon.png"
+                alt=""
+              />
+              Game themes
+            </legend>
+
+            <label>
+              <input type="radio" name="theme" value="code" checked />
+              Code vibes theme
+            </label>
+
+            <label>
+              <input type="radio" name="theme" value="food" />
+              Foods theme
+            </label>
+          </fieldset>
+
+          <fieldset class="settings-screen__group">
+            <legend class="settings-screen__legend">
+              <img
+                class="settings-screen__icon"
+                src="./assets/images/player-icon.png"
+                alt=""
+              />
+              Choose player
+            </legend>
+
+            <label>
+              <input type="radio" name="player" value="blue" checked />
+              Blue
+            </label>
+
+            <label>
+              <input type="radio" name="player" value="orange" />
+              Orange
+            </label>
+          </fieldset>
+
+          <fieldset class="settings-screen__group">
+            <legend class="settings-screen__legend">
+              <img
+                class="settings-screen__icon"
+                src="./assets/images/size-icon.png"
+                alt=""
+              />
+              Board size
+            </legend>
+
+            <label>
+              <input type="radio" name="board-size" value="16" checked />
+              16 cards
+            </label>
+
+            <label>
+              <input type="radio" name="board-size" value="24" />
+              24 cards
+            </label>
+
+            <label>
+              <input type="radio" name="board-size" value="36" />
+              36 cards
+            </label>
+          </fieldset>
+
+          <img
+            class="settings-screen__preview"
+            id="theme-preview"
+            src="./assets/images/code-theme.png"
+            alt="Vorschau des Code-vibes-Themes"
+          />
+
+          <div class="settings-screen__summary">
+            <span class="settings-screen__summary-item" id="summary-theme">
+              Code vibes
+            </span>
+
+            <span class="settings-screen__summary-item" id="summary-player">
+              Blue
+            </span>
+
+            <span class="settings-screen__summary-item" id="summary-size">
+              16 cards
+            </span>
+
+            <button class="settings-screen__start-button" type="submit">
+              <img
+                class="settings-screen__start-icon"
+                src="./assets/images/start-rec.png"
+                alt=""
+              />
+              Start
+            </button>
+          </div>
+        </form>
+      </section>
     </main>
     <script type="module" src="main.ts"></script>
   </body>
