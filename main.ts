@@ -94,9 +94,27 @@ function renderBoard(cardCount: number) {
   gameBoard.replaceChildren();
   gameBoard.dataset.size = String(cardCount);
 
+  const motifs: number[] = [];
+
+  for (let motif = 1; motif <= cardCount / 2; motif++) {
+    motifs.push(motif, motif);
+  }
+
+  shuffleCards(motifs);
+
+  let firstCard: HTMLButtonElement | null = null;
+  let isChecking = false;
+
   for (let index = 0; index < cardCount; index++) {
     const card = document.createElement('button');
+    const motifId = motifs[index];
 
+    const motifUrl = new URL(
+      `./assets/images/code-vibes-cards/code-vibes-card (${motifId}).png`,
+      import.meta.url,
+    ).href;
+
+    card.dataset.motif = String(motifId);
     card.type = 'button';
     card.className = 'game-screen__card';
     card.setAttribute('aria-label', `Karte ${index + 1} aufdecken`);
@@ -108,15 +126,47 @@ function renderBoard(cardCount: number) {
     </span> 
     `;
 
-    card.addEventListener('click', () => {
-      const isFlipped = card.classList.toggle('is-flipped');
+    const revealedFace = card.querySelector<HTMLElement>(
+      '.game-screen__card-face--revealed',
+    );
 
-      card.setAttribute(
-        'aria-label',
-        isFlipped
-          ? `karte ${index + 1}, Git-Motiv, zudecken`
-          : `Karte ${index + 1} aufdecken`,
-      );
+    if (revealedFace) {
+      revealedFace.style.backgroundImage = `url("${motifUrl}")`;
+    }
+
+    card.addEventListener('click', () => {
+      if (isChecking || card.classList.contains('is-flipped')) {
+        return;
+      }
+
+      card.classList.add('is-flipped');
+      card.setAttribute('aria-label', `Karte ${index + 1}, Motiv ${motifId}`);
+
+      if (!firstCard) {
+        firstCard = card;
+        return;
+      }
+
+      const previousCard = firstCard;
+      firstCard = null;
+
+      if (previousCard.dataset.motif === card.dataset.motif) {
+        previousCard.disabled = true;
+        card.disabled = true;
+        return;
+      }
+
+      isChecking = true;
+
+      window.setTimeout(() => {
+        previousCard.classList.remove('is-flipped');
+        card.classList.remove('is-flipped');
+
+        previousCard.setAttribute('aria-label', 'verdeckte Karte aufdecken');
+        card.setAttribute('aria-label', 'Verdeckte Karte aufdecken');
+
+        isChecking = false;
+      }, 1000);
     });
     gameBoard.append(card);
   }
@@ -130,4 +180,14 @@ if (exitGameButton && gameScreen && settingsScreen) {
     gameScreen.hidden = true;
     settingsScreen.hidden = false;
   });
+}
+
+function shuffleCards(cards: number[]) {
+  for (let index = cards.length - 1; index > 0; index--) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+
+    const savedCard = cards[index];
+    cards[index] = cards[randomIndex];
+    cards[randomIndex] = savedCard;
+  }
 }
