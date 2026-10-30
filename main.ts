@@ -1,6 +1,8 @@
 import './styles/main.scss';
 import codeThemeImage from './assets/images/code-theme.png';
 import foodThemeImage from './assets/images/foods-theme.png';
+import blueLabel from './assets/images/code-vibes-cards/label-blue.png';
+import orangeLabel from './assets/images/code-vibes-cards/label-orange.png';
 
 const playButton = document.querySelector<HTMLButtonElement>('#play-button');
 const startScreen = document.querySelector<HTMLElement>('#start-screen');
@@ -58,7 +60,8 @@ if (settingsForm && summaryTheme && summaryPlayer && summarySize) {
 }
 
 const gameScreen = document.querySelector<HTMLElement>('#game-screen');
-const currentPlayer = document.querySelector<HTMLElement>('#current-player');
+const currentPlayer =
+  document.querySelector<HTMLImageElement>('#current-player');
 
 if (settingsForm && settingsScreen && gameScreen && currentPlayer) {
   settingsForm.addEventListener('submit', (event) => {
@@ -69,9 +72,11 @@ if (settingsForm && settingsScreen && gameScreen && currentPlayer) {
     renderBoard(cardCount);
 
     if (settings.get('player') === 'orange') {
-      currentPlayer.textContent = 'Orange';
+      currentPlayer.src = orangeLabel;
+      currentPlayer.alt = 'Orange';
     } else {
-      currentPlayer.textContent = 'Blue';
+      currentPlayer.src = blueLabel;
+      currentPlayer.alt = 'Blue';
     }
 
     settingsScreen.hidden = true;
@@ -94,8 +99,35 @@ function renderBoard(cardCount: number) {
 
     card.type = 'button';
     card.className = 'game-screen__card';
-    card.setAttribute('arial-label', `Karte ${index + 1} aufdecken`);
+    card.setAttribute('aria-label', `Karte ${index + 1} aufdecken`);
 
+    card.innerHTML = `
+    <span class="game-screen__card-inner" aria-hidden="true">
+      <span class="game-screen__card-face game-screen__card-face--covered"></span>
+      <span class="game-screen__card-face game-screen__card-face--revealed"></span>
+    </span> 
+    `;
+
+    card.addEventListener('click', () => {
+      const isFlipped = card.classList.toggle('is-flipped');
+
+      card.setAttribute(
+        'aria-label',
+        isFlipped
+          ? `karte ${index + 1}, Git-Motiv, zudecken`
+          : `Karte ${index + 1} aufdecken`,
+      );
+    });
     gameBoard.append(card);
   }
+}
+
+const exitGameButton =
+  document.querySelector<HTMLButtonElement>('#exit-game-button');
+
+if (exitGameButton && gameScreen && settingsScreen) {
+  exitGameButton.addEventListener('click', () => {
+    gameScreen.hidden = true;
+    settingsScreen.hidden = false;
+  });
 }
