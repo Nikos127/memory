@@ -56,3 +56,46 @@ if (settingsForm && summaryTheme && summaryPlayer && summarySize) {
     summarySize.textContent = `${settings.get('board-size')} cards`;
   });
 }
+
+const gameScreen = document.querySelector<HTMLElement>('#game-screen');
+const currentPlayer = document.querySelector<HTMLElement>('#current-player');
+
+if (settingsForm && settingsScreen && gameScreen && currentPlayer) {
+  settingsForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const settings = new FormData(settingsForm);
+    const cardCount = Number(settings.get('board-size'));
+    renderBoard(cardCount);
+
+    if (settings.get('player') === 'orange') {
+      currentPlayer.textContent = 'Orange';
+    } else {
+      currentPlayer.textContent = 'Blue';
+    }
+
+    settingsScreen.hidden = true;
+    gameScreen.hidden = false;
+  });
+}
+
+function renderBoard(cardCount: number) {
+  const gameBoard = document.querySelector<HTMLElement>('#game-board');
+
+  if (!gameBoard) {
+    return;
+  }
+
+  gameBoard.replaceChildren();
+  gameBoard.dataset.size = String(cardCount);
+
+  for (let index = 0; index < cardCount; index++) {
+    const card = document.createElement('button');
+
+    card.type = 'button';
+    card.className = 'game-screen__card';
+    card.setAttribute('arial-label', `Karte ${index + 1} aufdecken`);
+
+    gameBoard.append(card);
+  }
+}

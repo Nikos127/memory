@@ -1,0 +1,124 @@
+@mixin centered-row($gap: 8px) {
+  display: flex;
+  align-items: center;
+  gap: $gap;
+}
+
+.game-screen {
+  min-height: 100vh;
+  padding: 40px 24px;
+  background-color: #303232;
+  color: #ffffff;
+  font-family: 'Red Rose', sans-serif;
+
+  &__header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &__scores {
+    @include centered-row(16px);
+    justify-self: start;
+    padding: 12px 16px;
+    background-color: #405955;
+  }
+
+  &__player {
+    @include centered-row();
+
+    &--blue {
+      color: #2bb1ff;
+    }
+
+    &--orange {
+      color: #f58e39;
+    }
+
+    &::before {
+      content: '';
+      width: 24px;
+      height: 20px;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    &--blue::before {
+      background-image: url('../../assets/images/code-vibes-cards/label-blue.png');
+    }
+
+    &--orange::before {
+      background-image: url(../../assets/images/code-vibes-cards/label-orange.png);
+    }
+  }
+
+  &__turn {
+    margin: 0;
+    text-align: center;
+  }
+
+  &__exit {
+    justify-self: end;
+    padding: 12px 24px;
+    border: none;
+    background-color: #405955;
+    color: inherit;
+
+    &:hover {
+      background-color: #52736d;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 4px;
+    }
+  }
+
+  &__board {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 12px;
+    width: 100%;
+    max-width: 780px;
+    margin: 48px auto 0;
+
+    &[data-size='16'] {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      max-width: 516px;
+    }
+  }
+
+  &__card {
+    aspect-ratio: 1;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    background-color: transparent;
+    background-image: url('../../assets/images/code-vibes-cards/code-vibes-front.png');
+    background-position: center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
+    &:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 3px;
+    }
+  }
+}
+@media (max-width: 700px) {
+  .game-screen {
+    &__header {
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+    }
+
+    &__turn {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+  }
+}

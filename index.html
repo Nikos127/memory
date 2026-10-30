@@ -149,6 +149,36 @@
           </div>
         </form>
       </section>
+
+      <section
+        class="game-screen"
+        id="game-screen"
+        aria-label="Memory game"
+        hidden
+      >
+        <header class="game-screen__header">
+          <div class="game-screen__scores" aria-label="Scores">
+            <span class="game-screen__player game-screen__player--blue">
+              Blue <span id="score-blue">0</span>
+            </span>
+
+            <span class="game-screen__player game-screen__player--orange">
+              Orange <span id="score-orange">0</span>
+            </span>
+          </div>
+
+          <p class="game-screen__turn">
+            Current player:
+            <span id="current-player">Blue</span>
+          </p>
+
+          <button class="game-screen__exit" id="exit-game-button" type="button">
+            Exit game
+          </button>
+        </header>
+
+        <div class="game-screen__board" id="game-board"></div>
+      </section>
     </main>
     <script type="module" src="main.ts"></script>
   </body>
