@@ -113,6 +113,12 @@
       transform: rotateY(180deg);
     }
 
+    &.is-matched {
+      box-shadow:
+        0 0 0 4px #55d6c2,
+        0 0 12px 6px rgba(85, 214, 194, 0.6);
+    }
+
     &:focus-visible {
       outline: 2px solid #ffffff;
       outline-offset: 4px;
@@ -142,6 +148,12 @@
 
     &--revealed {
       transform: rotateY(180deg);
+    }
+  }
+
+  &__board[data-theme='food'] {
+    .game-screen__card-face--covered {
+      background-image: url('../../assets/images/foods-cards/foods-front.png');
     }
   }
 }

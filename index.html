@@ -188,6 +188,65 @@
 
         <div class="game-screen__board" id="game-board"></div>
       </section>
+      <section
+        class="game-over-screen"
+        id="game-over-screen"
+        aria-labelledby="game-over-title"
+        hidden
+      >
+        <h1 class="game-over-screen__title" id="game-over-title">Game Over</h1>
+
+        <p class="game-over-screen__label">Final Score</p>
+
+        <div class="game-over-screen__scores">
+          <span class="game-over-screen__player game-over-screen__player--blue">
+            Blue <span id="final-score-blue">0</span>
+          </span>
+
+          <span
+            class="game-over-screen__player game-over-screen__player--orange"
+          >
+            Orange <span id="final-score-orange">0</span>
+          </span>
+        </div>
+      </section>
+
+      <section
+        class="result-screen"
+        id="result-screen"
+        aria-labelledby="result-title"
+        hidden
+      >
+        <div
+          class="result-screen__confetti"
+          id="result-confetti"
+          aria-hidden="true"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <p class="result-screen__intro" id="result-intro">The winner is</p>
+
+        <h1 class="result-screen__title" id="result-title">BLUE PLAYER</h1>
+
+        <div
+          class="result-screen__symbol"
+          id="result-symbol"
+          aria-hidden="true"
+        ></div>
+
+        <button
+          class="result-screen__button"
+          id="back-to-start-button"
+          type="button"
+        >
+          Back to Start
+        </button>
+      </section>
     </main>
     <script type="module" src="main.ts"></script>
   </body>

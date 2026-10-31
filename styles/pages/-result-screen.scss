@@ -1,0 +1,97 @@
+.result-screen {
+  position: relative;
+  min-height: 100vh;
+  padding: 180px 24px 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #303232;
+  font-family: 'Red Rose', sans-serif;
+  text-align: center;
+
+  &__confetti {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 170px;
+    overflow: hidden;
+    pointer-events: none;
+
+    span {
+      position: absolute;
+      aspect-ratio: 260/226;
+      background-image: url('../../assets/images/code-vibes-cards/confetti.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+  }
+
+  &__intro {
+    margin: 0 0 8px;
+    font-size: 24px;
+  }
+
+  &__title {
+    margin: 0;
+    color: #2bb1ff;
+    font-size: clamp(28px, 4vw, 56px);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  &__symbol {
+    width: 200px;
+    height: 240px;
+    margin: 24px 0;
+    background-image: url(../../assets/images/code-vibes-cards/big-pawn-blue.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  &__button {
+    padding: 12px 24px;
+    border: none;
+    background-color: #405955;
+    color: #fff;
+
+    &:hover {
+      background-color: #507069;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #55d6c2;
+      outline-offset: 4px;
+    }
+  }
+  &[data-result='orange'] {
+    .result-screen__title {
+      color: #f58e39;
+    }
+
+    .result-screen__symbol {
+      background-image: url(../../assets/images/code-vibes-cards/big-pawn-orange.png);
+    }
+  }
+
+  &[data-result='draw'] {
+    padding-top: 64px;
+
+    .result-screen__confetti {
+      display: none;
+    }
+
+    .result-screen__title {
+      color: #55d6c2;
+      font-size: clamp(48px, 7vw, 96px);
+    }
+
+    .result-screen__symbol {
+      width: min(280px, 100%);
+      background-image: url('../../assets/images/code-vibes-cards/scale.png');
+    }
+  }
+}

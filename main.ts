@@ -62,14 +62,22 @@ if (settingsForm && summaryTheme && summaryPlayer && summarySize) {
 const gameScreen = document.querySelector<HTMLElement>('#game-screen');
 const currentPlayer =
   document.querySelector<HTMLImageElement>('#current-player');
-
+let activePlayer: 'blue' | 'orange' = 'blue';
+const scores = {
+  blue: 0,
+  orange: 0,
+};
 if (settingsForm && settingsScreen && gameScreen && currentPlayer) {
   settingsForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
+    ((scores.blue = 0), (scores.orange = 0), updateScores());
+
     const settings = new FormData(settingsForm);
+    activePlayer = settings.get('player') === 'orange' ? 'orange' : 'blue';
     const cardCount = Number(settings.get('board-size'));
-    renderBoard(cardCount);
+    const theme = settings.get('theme') === 'food' ? 'food' : 'code';
+    renderBoard(cardCount, theme);
 
     if (settings.get('player') === 'orange') {
       currentPlayer.src = orangeLabel;
@@ -84,7 +92,7 @@ if (settingsForm && settingsScreen && gameScreen && currentPlayer) {
   });
 }
 
-function renderBoard(cardCount: number) {
+function renderBoard(cardCount: number, theme: 'code' | 'food') {
   const gameBoard = document.querySelector<HTMLElement>('#game-board');
 
   if (!gameBoard) {
@@ -93,6 +101,7 @@ function renderBoard(cardCount: number) {
 
   gameBoard.replaceChildren();
   gameBoard.dataset.size = String(cardCount);
+  gameBoard.dataset.theme = theme;
 
   const motifs: number[] = [];
 
@@ -109,10 +118,16 @@ function renderBoard(cardCount: number) {
     const card = document.createElement('button');
     const motifId = motifs[index];
 
-    const motifUrl = new URL(
-      `./assets/images/code-vibes-cards/code-vibes-card (${motifId}).png`,
-      import.meta.url,
-    ).href;
+    const motifUrl =
+      theme === 'food'
+        ? new URL(
+            `./assets/images/foods-cards/foods-card (${motifId}).png`,
+            import.meta.url,
+          ).href
+        : new URL(
+            `./assets/images/code-vibes-cards/code-vibes-card (${motifId}).png`,
+            import.meta.url,
+          ).href;
 
     card.dataset.motif = String(motifId);
     card.type = 'button';
@@ -153,6 +168,22 @@ function renderBoard(cardCount: number) {
       if (previousCard.dataset.motif === card.dataset.motif) {
         previousCard.disabled = true;
         card.disabled = true;
+
+        scores[activePlayer]++;
+        updateScores();
+
+        previousCard.classList.add('is-matched');
+        card.classList.add('is-matched');
+        isChecking = true;
+
+        window.setTimeout(() => {
+          previousCard.classList.remove('is-matched');
+          card.classList.remove('is-matched');
+          isChecking = false;
+          if (card.isConnected && gameScreen && !gameScreen.hidden) {
+            checkGameEnd(cardCount);
+          }
+        }, 1000);
         return;
       }
 
@@ -165,6 +196,7 @@ function renderBoard(cardCount: number) {
         previousCard.setAttribute('aria-label', 'verdeckte Karte aufdecken');
         card.setAttribute('aria-label', 'Verdeckte Karte aufdecken');
 
+        switchPlayer();
         isChecking = false;
       }, 1000);
     });
@@ -189,5 +221,126 @@ function shuffleCards(cards: number[]) {
     const savedCard = cards[index];
     cards[index] = cards[randomIndex];
     cards[randomIndex] = savedCard;
+  }
+}
+
+function switchPlayer() {
+  activePlayer = activePlayer === 'blue' ? 'orange' : 'blue';
+
+  if (!currentPlayer) {
+    return;
+  }
+
+  if (activePlayer === 'orange') {
+    currentPlayer.src = orangeLabel;
+    currentPlayer.alt = 'Orange';
+  } else {
+    currentPlayer.src = blueLabel;
+    currentPlayer.alt = 'Blue';
+  }
+}
+
+function updateScores() {
+  const blueScore = document.querySelector<HTMLElement>('#score-blue');
+  const orangeScore = document.querySelector<HTMLElement>('#score-orange');
+
+  if (blueScore && orangeScore) {
+    blueScore.textContent = String(scores.blue);
+    orangeScore.textContent = String(scores.orange);
+  }
+}
+
+function checkGameEnd(cardCount: number) {
+  const foundPairs = scores.blue + scores.orange;
+  if (foundPairs < cardCount / 2) {
+    return;
+  }
+
+  const gameOverScreen =
+    document.querySelector<HTMLElement>('#game-over-screen');
+  const finalScoreBlue =
+    document.querySelector<HTMLElement>('#final-score-blue');
+  const finalScoreOrange = document.querySelector<HTMLElement>(
+    '#final-score-orange',
+  );
+
+  if (!gameScreen || !gameOverScreen || !finalScoreBlue || !finalScoreOrange) {
+    return;
+  }
+
+  finalScoreBlue.textContent = String(scores.blue);
+  finalScoreOrange.textContent = String(scores.orange);
+
+  gameScreen.hidden = true;
+  gameOverScreen.hidden = false;
+  window.setTimeout(showResult, 2000);
+}
+
+function showResult() {
+  const gameOverScreen =
+    document.querySelector<HTMLElement>('#game-over-screen');
+  const resultScreen = document.querySelector<HTMLElement>('#result-screen');
+  const resultIntro = document.querySelector<HTMLElement>('#result-intro');
+  const resultTitle = document.querySelector<HTMLElement>('#result-title');
+
+  if (!gameOverScreen || !resultScreen || !resultIntro || !resultTitle) {
+    return;
+  }
+
+  if (scores.blue > scores.orange) {
+    resultScreen.dataset.result = 'blue';
+    resultIntro.textContent = 'The winner is';
+    resultTitle.textContent = 'BLUE PLAYER';
+  } else if (scores.orange > scores.blue) {
+    resultScreen.dataset.result = 'orange';
+    resultIntro.textContent = 'The winner is';
+    resultTitle.textContent = 'ORANGE PLAYER';
+  } else {
+    resultScreen.dataset.result = 'draw';
+    resultIntro.textContent = "It's a";
+    resultTitle.textContent = 'DRAW';
+  }
+  gameOverScreen.hidden = true;
+  resultScreen.hidden = false;
+  createConfetti();
+}
+
+const backToStartButton = document.querySelector<HTMLElement>(
+  '#back-to-start-button',
+);
+
+backToStartButton?.addEventListener('click', () => {
+  const resultScreen = document.querySelector<HTMLElement>('#result-screen');
+
+  if (!resultScreen || !startScreen) {
+    return;
+  }
+
+  resultScreen.hidden = true;
+  startScreen.hidden = false;
+});
+
+function createConfetti() {
+  const container = document.querySelector<HTMLElement>('#result-confetti');
+  if (!container) {
+    return;
+  }
+
+  container.replaceChildren();
+
+  const count = Math.ceil(window.innerWidth / 90);
+
+  for (let index = 0; index < count; index++) {
+    const piece = document.createElement('span');
+    const size = 90 + Math.random() * 60;
+    const rotation = Math.random() * 360;
+    const position = ((index + Math.random()) / count) * 100;
+
+    piece.style.width = `${size}px`;
+    piece.style.left = `${position}%`;
+    piece.style.top = `${-25 + Math.random() * 75}px`;
+    piece.style.transform = `translateX(-50%) rotate(${rotation}deg)`;
+
+    container.append(piece);
   }
 }
