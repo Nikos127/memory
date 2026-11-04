@@ -180,15 +180,33 @@
       }
 
       &--blue::before {
-        background-image: url('../../assets/images/foods-cards/blue-pawn.png');
+        background-image: url('../../assets/images/foods-cards/blue-pawn.svg');
       }
       &--orange::before {
-        background-image: url('../../assets/images/foods-cards/orange-pawn.png');
+        background-image: url('../../assets/images/foods-cards/orange-pawn.svg');
       }
     }
 
-    .game-screen__turn img {
-      object-fit: contain;
+    .game-screen__turn-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 30px;
+      border-radius: 4px;
+      background-color: #097fc5;
+      vertical-align: middle;
+
+      &:has(img[alt='Orange']) {
+        background-color: #f58e39;
+      }
+
+      img {
+        width: 16px;
+        height: 20px;
+        object-fit: contain;
+        filter: brightness(0) invert(1);
+      }
     }
 
     .game-screen__exit {

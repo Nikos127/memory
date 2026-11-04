@@ -94,4 +94,72 @@
       background-image: url('../../assets/images/code-vibes-cards/scale.png');
     }
   }
+
+  &[data-theme='food'] {
+    padding: 64px 24px;
+    background-color: #f7f7f7;
+    color: #e87520;
+    font-family: 'Almarai', sans-serif;
+
+    .result-screen__confetti {
+      display: none;
+    }
+
+    .result-screen__title {
+      color: #e87520;
+      font-weight: 300;
+      text-transform: capitalize;
+    }
+
+    .result-screen__symbol {
+      width: 180px;
+      height: 220px;
+      border-radius: 4px;
+      background-color: #f0e6da;
+      background-image: url('../../assets/images/foods-cards/blue-pawn.svg');
+      background-size: auto 80%;
+      box-shadow: 2px 4px 0 #e3d5c5;
+    }
+
+    .result-screen__button {
+      border-radius: 4px;
+      background-color: #fa8427;
+
+      &:hover {
+        background-color: #df6b16;
+      }
+
+      &:focus-visible {
+        outline-color: #e87520;
+      }
+    }
+
+    &[data-result='orange'] {
+      .result-screen__symbol {
+        background-image: url('../../assets/images/foods-cards/orange-pawn.svg');
+      }
+    }
+
+    &[data-result='draw'] {
+      .result-screen__title {
+        text-transform: uppercase;
+      }
+
+      .result-screen__symbol {
+        background-image: none;
+        position: relative;
+
+        &::before {
+          content: '';
+          position: absolute;
+          inset: 20px;
+          background-color: #fa8427;
+          mask-image: url('../../assets/images/code-vibes-cards/scale.png');
+          mask-position: center;
+          mask-repeat: no-repeat;
+          mask-size: contain;
+        }
+      }
+    }
+  }
 }

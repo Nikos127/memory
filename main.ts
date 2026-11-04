@@ -3,8 +3,8 @@ import codeThemeImage from './assets/images/code-theme.png';
 import foodThemeImage from './assets/images/foods-theme.png';
 import blueLabel from './assets/images/code-vibes-cards/label-blue.png';
 import orangeLabel from './assets/images/code-vibes-cards/label-orange.png';
-import bluePawn from './assets/images/foods-cards/blue-pawn.png';
-import orangePawn from './assets/images/foods-cards/orange-pawn.png';
+import bluePawn from './assets/images/foods-cards/blue-pawn.svg';
+import orangePawn from './assets/images/foods-cards/orange-pawn.svg';
 
 const playButton = document.querySelector<HTMLButtonElement>('#play-button');
 const startScreen = document.querySelector<HTMLElement>('#start-screen');
@@ -300,6 +300,7 @@ function checkGameEnd(cardCount: number) {
   finalScoreBlue.textContent = String(scores.blue);
   finalScoreOrange.textContent = String(scores.orange);
 
+  gameOverScreen.dataset.theme = gameScreen.dataset.theme;
   gameScreen.hidden = true;
   gameOverScreen.hidden = false;
   window.setTimeout(showResult, 2000);
@@ -329,6 +330,7 @@ function showResult() {
     resultIntro.textContent = "It's a";
     resultTitle.textContent = 'DRAW';
   }
+  resultScreen.dataset.theme = gameOverScreen.dataset.theme;
   gameOverScreen.hidden = true;
   resultScreen.hidden = false;
   createConfetti();

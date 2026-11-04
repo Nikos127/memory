@@ -61,4 +61,32 @@
       background-image: url('../../assets/images/code-vibes-cards/label-orange.png');
     }
   }
+
+  &[data-theme='food'] {
+    background-color: #fa8427;
+    color: #ffffff;
+    font-family: 'Almarai', sans-serif;
+
+    .game-over-screen__title {
+      color: #ffffff;
+      font-size: clamp(40px, 6vw, 88px);
+      font-weight: 300;
+      text-transform: uppercase;
+    }
+
+    .game-over-screen__scores {
+      border-radius: 4px;
+      background-color: #ffffff;
+    }
+
+    .game-over-screen__player {
+      &--blue::before {
+        background-image: url('../../assets/images/foods-cards/blue-pawn.svg');
+      }
+
+      &--orange::before {
+        background-image: url('../../assets/images/foods-cards/orange-pawn.svg');
+      }
+    }
+  }
 }
