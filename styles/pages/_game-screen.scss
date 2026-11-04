@@ -89,20 +89,22 @@
 
   &__board {
     display: grid;
-    grid-template-columns: repeat(6, 120px);
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 12px;
-    width: max-content;
+    width: 100%;
+    max-width: 780px;
     margin: 48px auto 0;
 
     &[data-size='16'] {
-      grid-template-columns: repeat(4, 120px);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       max-width: 516px;
     }
   }
 
   &__card {
-    width: 120px;
-    height: 120px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
     padding: 0;
     border: none;
     border-radius: 8px;
@@ -156,7 +158,59 @@
       background-image: url('../../assets/images/foods-cards/foods-front.png');
     }
   }
+
+  &[data-theme='food'] {
+    background-color: #ffffff;
+    color: #c77730;
+
+    .game-screen__header {
+      padding: 16px 24px;
+      border-radius: 8px;
+      background-color: #f0e6da;
+    }
+
+    .game-screen__scores {
+      border-radius: 4px;
+      background-color: #ffffff;
+    }
+
+    .game-screen__player {
+      &::before {
+        background-position: center;
+      }
+
+      &--blue::before {
+        background-image: url('../../assets/images/foods-cards/blue-pawn.png');
+      }
+      &--orange::before {
+        background-image: url('../../assets/images/foods-cards/orange-pawn.png');
+      }
+    }
+
+    .game-screen__turn img {
+      object-fit: contain;
+    }
+
+    .game-screen__exit {
+      background-image: url(../../assets/images/foods-cards/exit-game.png);
+
+      &:hover,
+      &:focus-visible {
+        background-image: url(../../assets/images/foods-cards/exit-game-hover.png);
+        box-shadow: none;
+      }
+
+      &:focus-visible {
+        outline-color: #c77730;
+      }
+    }
+
+    .game-screen__card:focus-visible {
+      outline-color: #c77730;
+    }
+  }
 }
+
 @media (max-width: 700px) {
   .game-screen {
     &__header {
@@ -167,6 +221,51 @@
     &__turn {
       grid-column: 1 / -1;
       grid-row: 2;
+    }
+
+    &__board {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      max-width: 516px;
+      gap: 8px;
+      margin-top: 32px;
+    }
+  }
+}
+
+@media (max-width: 560px) {
+  .game-screen {
+    padding: 24px 16px;
+
+    &__header {
+      grid-template-columns: minmax(0, 1fr);
+      justify-content: center;
+      gap: 16px;
+    }
+
+    &__scores {
+      justify-self: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 16px;
+    }
+
+    &__turn {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    &__exit {
+      grid-column: 1;
+      grid-row: 3;
+      justify-self: center;
+      width: 156px;
+      height: 48px;
+    }
+
+    &[data-theme='food'] {
+      .game-screen__header {
+        padding: 16px 12px;
+      }
     }
   }
 }

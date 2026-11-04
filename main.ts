@@ -3,6 +3,8 @@ import codeThemeImage from './assets/images/code-theme.png';
 import foodThemeImage from './assets/images/foods-theme.png';
 import blueLabel from './assets/images/code-vibes-cards/label-blue.png';
 import orangeLabel from './assets/images/code-vibes-cards/label-orange.png';
+import bluePawn from './assets/images/foods-cards/blue-pawn.png';
+import orangePawn from './assets/images/foods-cards/orange-pawn.png';
 
 const playButton = document.querySelector<HTMLButtonElement>('#play-button');
 const startScreen = document.querySelector<HTMLElement>('#start-screen');
@@ -63,6 +65,7 @@ const gameScreen = document.querySelector<HTMLElement>('#game-screen');
 const currentPlayer =
   document.querySelector<HTMLImageElement>('#current-player');
 let activePlayer: 'blue' | 'orange' = 'blue';
+let cardTimer: number | null = null;
 const scores = {
   blue: 0,
   orange: 0,
@@ -77,15 +80,10 @@ if (settingsForm && settingsScreen && gameScreen && currentPlayer) {
     activePlayer = settings.get('player') === 'orange' ? 'orange' : 'blue';
     const cardCount = Number(settings.get('board-size'));
     const theme = settings.get('theme') === 'food' ? 'food' : 'code';
+    gameScreen.dataset.theme = theme;
     renderBoard(cardCount, theme);
 
-    if (settings.get('player') === 'orange') {
-      currentPlayer.src = orangeLabel;
-      currentPlayer.alt = 'Orange';
-    } else {
-      currentPlayer.src = blueLabel;
-      currentPlayer.alt = 'Blue';
-    }
+    updateCurrentPlayer();
 
     settingsScreen.hidden = true;
     gameScreen.hidden = false;
@@ -176,7 +174,8 @@ function renderBoard(cardCount: number, theme: 'code' | 'food') {
         card.classList.add('is-matched');
         isChecking = true;
 
-        window.setTimeout(() => {
+        cardTimer = window.setTimeout(() => {
+          cardTimer = null;
           previousCard.classList.remove('is-matched');
           card.classList.remove('is-matched');
           isChecking = false;
@@ -189,7 +188,8 @@ function renderBoard(cardCount: number, theme: 'code' | 'food') {
 
       isChecking = true;
 
-      window.setTimeout(() => {
+      cardTimer = window.setTimeout(() => {
+        cardTimer = null;
         previousCard.classList.remove('is-flipped');
         card.classList.remove('is-flipped');
 
@@ -206,9 +206,33 @@ function renderBoard(cardCount: number, theme: 'code' | 'food') {
 
 const exitGameButton =
   document.querySelector<HTMLButtonElement>('#exit-game-button');
+const exitDialog = document.querySelector<HTMLDialogElement>('#exit-dialog');
+const backToGameButton = document.querySelector<HTMLButtonElement>(
+  '#back-to-game-button',
+);
+const confirmExitButton = document.querySelector<HTMLButtonElement>(
+  '#confirm-exit-button',
+);
 
-if (exitGameButton && gameScreen && settingsScreen) {
+if (exitGameButton && exitDialog) {
   exitGameButton.addEventListener('click', () => {
+    exitDialog.showModal();
+  });
+}
+
+if (backToGameButton && exitDialog) {
+  backToGameButton.addEventListener('click', () => {
+    exitDialog.close();
+  });
+}
+
+if (confirmExitButton && exitDialog && gameScreen && settingsScreen) {
+  confirmExitButton.addEventListener('click', () => {
+    if (cardTimer !== null) {
+      window.clearTimeout(cardTimer);
+      cardTimer = null;
+    }
+    exitDialog.close();
     gameScreen.hidden = true;
     settingsScreen.hidden = false;
   });
@@ -226,16 +250,21 @@ function shuffleCards(cards: number[]) {
 
 function switchPlayer() {
   activePlayer = activePlayer === 'blue' ? 'orange' : 'blue';
+  updateCurrentPlayer();
+}
 
-  if (!currentPlayer) {
+function updateCurrentPlayer() {
+  if (!currentPlayer || !gameScreen) {
     return;
   }
 
+  const isFood = gameScreen.dataset.theme === 'food';
+
   if (activePlayer === 'orange') {
-    currentPlayer.src = orangeLabel;
+    currentPlayer.src = isFood ? orangePawn : orangeLabel;
     currentPlayer.alt = 'Orange';
   } else {
-    currentPlayer.src = blueLabel;
+    currentPlayer.src = isFood ? bluePawn : blueLabel;
     currentPlayer.alt = 'Blue';
   }
 }

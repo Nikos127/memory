@@ -247,6 +247,35 @@
           Back to Start
         </button>
       </section>
+
+      <dialog
+        class="exit-dialog"
+        id="exit-dialog"
+        aria-labelledby="exit-dialog-title"
+      >
+        <h2 class="exit-dialog__title" id="exit-dialog-title">
+          Are you sure you want to exit the game?
+        </h2>
+
+        <div class="exit-dialog__actions">
+          <button
+            class="exit-dialog__button exit-dialog__button--back"
+            id="back-to-game-button"
+            type="button"
+            autofocus
+          >
+            Back to Game
+          </button>
+
+          <button
+            class="exit-dialog__button exit-dialog__button--exit"
+            id="confirm-exit-button"
+            type="button"
+          >
+            Exit game
+          </button>
+        </div>
+      </dialog>
     </main>
     <script type="module" src="main.ts"></script>
   </body>
