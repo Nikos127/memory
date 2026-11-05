@@ -13,6 +13,6 @@
     "types": ["vite/client"],
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["main.ts"],
+  "include": ["src/main.ts"],
   "exclude": ["node_modules", "dist"]
 }
