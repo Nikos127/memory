@@ -1,5 +1,13 @@
 import { state } from './game-state';
 
+const RESULT_DELAY_MS = 2000;
+const CONFETTI_SPACING_PX = 90;
+const CONFETTI_MIN_SIZE_PX = 90;
+const CONFETTI_SIZE_RANGE_PX = 60;
+const FULL_ROTATION_DEGREES = 360;
+const CONFETTI_TOP_OFFSET_PX = -25;
+const CONFETTI_TOP_RANGE_PX = 75;
+
 /** Zeigt den Endstand an, sobald alle Paare gefunden sind.
  * @param cardCount Anzahl aller Karten im Spiel.
  */
@@ -15,7 +23,7 @@ export function checkGameEnd(cardCount: number) {
   over.dataset.theme = game.dataset.theme;
   game.hidden = true;
   over.hidden = false;
-  window.setTimeout(showResult, 2000);
+  window.setTimeout(showResult, RESULT_DELAY_MS);
 }
 
 /** Wechselt vom Punktestand zur Ergebnisanzeige mit Konfetti. */
@@ -58,7 +66,7 @@ function createConfetti() {
   const container = document.querySelector<HTMLElement>('#result-confetti');
   if (!container) return;
   container.replaceChildren();
-  const count = Math.ceil(window.innerWidth / 90);
+  const count = Math.ceil(window.innerWidth / CONFETTI_SPACING_PX);
   for (let index = 0; index < count; index++) {
     container.append(createConfettiPiece(index, count));
   }
@@ -71,12 +79,12 @@ function createConfetti() {
  */
 function createConfettiPiece(index: number, count: number) {
   const piece = document.createElement('span');
-  const size = 90 + Math.random() * 60;
-  const rotation = Math.random() * 360;
+  const size = CONFETTI_MIN_SIZE_PX + Math.random() * CONFETTI_SIZE_RANGE_PX;
+  const rotation = Math.random() * FULL_ROTATION_DEGREES;
   const position = ((index + Math.random()) / count) * 100;
   piece.style.width = `${size}px`;
   piece.style.left = `${position}%`;
-  piece.style.top = `${-25 + Math.random() * 75}px`;
+  piece.style.top = `${CONFETTI_TOP_OFFSET_PX + Math.random() * CONFETTI_TOP_RANGE_PX}px`;
   piece.style.transform = `translateX(-50%) rotate(${rotation}deg)`;
   return piece;
 }

@@ -2,6 +2,8 @@ import { createCard, createMotifs } from './cards';
 import { state, switchPlayer, updateScores, type Theme } from './game-state';
 import { checkGameEnd } from './results';
 
+const CARD_REVEAL_DELAY_MS = 1000;
+
 interface BoardState {
   firstCard: HTMLButtonElement | null;
   isChecking: boolean;
@@ -87,7 +89,7 @@ function schedulePair(first: HTMLButtonElement, second: HTMLButtonElement, round
     else hidePair(first, second);
     round.isChecking = false;
   }
-  state.cardTimer = window.setTimeout(finishPair, 1000);
+  state.cardTimer = window.setTimeout(finishPair, CARD_REVEAL_DELAY_MS);
 }
 
 /** Beendet die Trefferanimation und prüft das Spielende.
