@@ -1,10 +1,10 @@
 import './styles/main.scss';
-import codeThemeImage from './assets/images/code-theme.png';
-import foodThemeImage from './assets/images/foods-theme.png';
-import blueLabel from './assets/images/code-vibes-cards/label-blue.png';
-import orangeLabel from './assets/images/code-vibes-cards/label-orange.png';
-import bluePawn from './assets/images/foods-cards/blue-pawn.svg';
-import orangePawn from './assets/images/foods-cards/orange-pawn.svg';
+const codeThemeImage = `${import.meta.env.BASE_URL}assets/images/code-theme.png`;
+const foodThemeImage = `${import.meta.env.BASE_URL}assets/images/foods-theme.png`;
+const blueLabel = `${import.meta.env.BASE_URL}assets/images/code-vibes-cards/label-blue.png`;
+const orangeLabel = `${import.meta.env.BASE_URL}assets/images/code-vibes-cards/label-orange.png`;
+const bluePawn = `${import.meta.env.BASE_URL}assets/images/foods-cards/blue-pawn.svg`;
+const orangePawn = `${import.meta.env.BASE_URL}assets/images/foods-cards/orange-pawn.svg`;
 
 const playButton = document.querySelector<HTMLButtonElement>('#play-button');
 const startScreen = document.querySelector<HTMLElement>('#start-screen');
@@ -118,14 +118,8 @@ function renderBoard(cardCount: number, theme: 'code' | 'food') {
 
     const motifUrl =
       theme === 'food'
-        ? new URL(
-            `./assets/images/foods-cards/foods-card (${motifId}).png`,
-            import.meta.url,
-          ).href
-        : new URL(
-            `./assets/images/code-vibes-cards/code-vibes-card (${motifId}).png`,
-            import.meta.url,
-          ).href;
+        ? `${import.meta.env.BASE_URL}assets/images/foods-cards/foods-card (${motifId}).png`
+        : `${import.meta.env.BASE_URL}assets/images/code-vibes-cards/code-vibes-card (${motifId}).png`;
 
     card.dataset.motif = String(motifId);
     card.type = 'button';

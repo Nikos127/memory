@@ -47,11 +47,11 @@
     }
 
     &--blue::before {
-      background-image: url('../../assets/images/code-vibes-cards/label-blue.png');
+      background-image: url('/assets/images/code-vibes-cards/label-blue.png');
     }
 
     &--orange::before {
-      background-image: url(../../assets/images/code-vibes-cards/label-orange.png);
+      background-image: url(/assets/images/code-vibes-cards/label-orange.png);
     }
   }
 
@@ -70,7 +70,7 @@
     padding: 0;
     border: none;
     background-color: transparent;
-    background-image: url('../../assets/images/code-vibes-cards/exit-game.png');
+    background-image: url('/assets/images/code-vibes-cards/exit-game.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -145,7 +145,7 @@
     background-repeat: no-repeat;
 
     &--covered {
-      background-image: url('../../assets/images/code-vibes-cards/code-vibes-front.png');
+      background-image: url('/assets/images/code-vibes-cards/code-vibes-front.png');
     }
 
     &--revealed {
@@ -155,7 +155,7 @@
 
   &__board[data-theme='food'] {
     .game-screen__card-face--covered {
-      background-image: url('../../assets/images/foods-cards/foods-front.png');
+      background-image: url('/assets/images/foods-cards/foods-front.png');
     }
   }
 
@@ -180,10 +180,10 @@
       }
 
       &--blue::before {
-        background-image: url('../../assets/images/foods-cards/blue-pawn.svg');
+        background-image: url('/assets/images/foods-cards/blue-pawn.svg');
       }
       &--orange::before {
-        background-image: url('../../assets/images/foods-cards/orange-pawn.svg');
+        background-image: url('/assets/images/foods-cards/orange-pawn.svg');
       }
     }
 
@@ -210,11 +210,11 @@
     }
 
     .game-screen__exit {
-      background-image: url(../../assets/images/foods-cards/exit-game.png);
+      background-image: url(/assets/images/foods-cards/exit-game.png);
 
       &:hover,
       &:focus-visible {
-        background-image: url(../../assets/images/foods-cards/exit-game-hover.png);
+        background-image: url(/assets/images/foods-cards/exit-game-hover.png);
         box-shadow: none;
       }
 
